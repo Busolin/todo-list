@@ -19,7 +19,7 @@ export function Home() {
 
   useEffect(() => {
     countTasksDone();
-  }, [tasks]);
+  }, [setTasks]);
 
   function countTasksDone(): void {
     setTasksDone(() => tasks.filter((task) => task.done).length);
