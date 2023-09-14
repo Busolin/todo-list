@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     color: "#F2F2F2",
 
     fontSize: 16,
-    lineHeight: 140,
+    lineHeight: 22,
     fontFamily: "Inter-Regular",
   },
   addButton: {
@@ -60,6 +60,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: 24,
     marginTop: 32,
   },
+
   tasksMeter: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -70,6 +71,9 @@ export const styles = StyleSheet.create({
     borderBottomStyle: "solid",
 
     paddingBottom: 20,
+  },
+  tasksMeterWithTasks: {
+    marginBottom: 20,
   },
 
   taskInformation: {

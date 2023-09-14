@@ -12,9 +12,7 @@ export interface TaskProps {
 
 export function Task({ id, description, done }: TaskProps) {
   return (
-    <View
-      style={[styles.container, id === "1" ? styles.containerFirstChild : null]}
-    >
+    <View style={styles.container}>
       <RadioButton selected={done} />
       <Text style={[styles.text, done ? styles.textTaskComplete : null]}>
         {description}

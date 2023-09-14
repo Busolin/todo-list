@@ -18,66 +18,12 @@ export function Home() {
       description:
         "Integer urna interdum massa libero auctor neque turpis turpis semper.",
       done: false,
-      id: "1",
-      onComplete: () => {},
-    },
-    {
-      description: "Go to the gym",
-      done: true,
-      id: "2",
-      onComplete: () => {},
-    },
-    {
-      description: "Read a book",
-      done: false,
-      id: "3",
-      onComplete: () => {},
-    },
-    {
-      description: "Complete work project",
-      done: true,
-      id: "4",
-      onComplete: () => {},
-    },
-    {
-      description: "Call a friend",
-      done: false,
-      id: "5",
-      onComplete: () => {},
-    },
-    {
-      description: "Take a walk",
-      done: true,
-      id: "6",
-      onComplete: () => {},
-    },
-    {
-      description: "Cook dinner",
-      done: false,
-      id: "7",
-      onComplete: () => {},
-    },
-    {
-      description: "Do laundry",
-      done: true,
-      id: "8",
-      onComplete: () => {},
-    },
-    {
-      description: "Write in journal",
-      done: false,
-      id: "9",
-      onComplete: () => {},
-    },
-    {
-      description: "Watch a movie",
-      done: true,
-      id: "10",
+      id: "0",
       onComplete: () => {},
     },
   ];
 
-  const [tasks, setTasks] = useState<TaskProps[]>(mockedTasks);
+  const [tasks, setTasks] = useState<TaskProps[]>([]);
   const [tasksDone, setTasksDone] = useState(0);
 
   useEffect(() => {
@@ -100,6 +46,23 @@ export function Home() {
     setTasks([...tasksNotDone, ...tasksDone]);
   }
 
+  const [taskDescription, setTaskDescription] = useState("");
+
+  function handleAddNewTask() {
+    const taskId = (tasks.length + 1).toString();
+
+    const newTask: TaskProps = {
+      id: taskId,
+      description: taskDescription,
+      done: false,
+      onComplete: () => {},
+    };
+
+    // Why when console.log(tasks), even with async, the object is without the new item?
+    setTasks((prevState) => [newTask, ...prevState]);
+    setTaskDescription("");
+  }
+
   return (
     <>
       <View style={styles.homeContainer}>
@@ -114,15 +77,25 @@ export function Home() {
               style={styles.inputNewTask}
               placeholder="Adicione uma nova tarefa"
               placeholderTextColor={"#808080"}
+              onChangeText={setTaskDescription}
+              value={taskDescription}
             />
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={handleAddNewTask}
+            >
               <Image source={require("./plus.svg")} />
             </TouchableOpacity>
           </View>
         </View>
 
         <View style={styles.homeContent}>
-          <View style={styles.tasksMeter}>
+          <View
+            style={[
+              styles.tasksMeter,
+              tasks.length ? styles.tasksMeterWithTasks : null,
+            ]}
+          >
             <View style={styles.taskInformation}>
               <Text style={styles.taskType}>Criadas</Text>
               <View style={styles.taskMeterContainer}>
