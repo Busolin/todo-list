@@ -1,4 +1,5 @@
 import {
+  Alert,
   FlatList,
   SafeAreaView,
   Text,
@@ -27,6 +28,13 @@ export function Home() {
   const [taskDescription, setTaskDescription] = useState("");
 
   function handleAddNewTask() {
+    if (!taskDescription) {
+      return Alert.alert(
+        "Ops!",
+        "Não é possível adicionar uma tarefa vazia. Por favor, insira algum texto para adicionar uma nova tarefa."
+      );
+    }
+
     const taskId = tasks.length.toString();
 
     const newTask: TaskProps = {
