@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { RadioButton } from "../RadioButton";
 import Image from "react-native-remote-svg";
 import { styles } from "./style";
@@ -8,16 +8,19 @@ export interface TaskProps {
   description: string;
   done: boolean;
   onComplete: () => void;
+  onRemove: () => void;
 }
 
-export function Task({ id, description, done }: TaskProps) {
+export function Task({ description, done, onComplete, onRemove }: TaskProps) {
   return (
     <View style={styles.container}>
-      <RadioButton selected={done} />
+      <RadioButton onComplete={onComplete} selected={done} />
       <Text style={[styles.text, done ? styles.textTaskComplete : null]}>
         {description}
       </Text>
-      <Image source={require("./trash.svg")}></Image>
+      <TouchableOpacity onPress={onRemove}>
+        <Image source={require("./trash.svg")}></Image>
+      </TouchableOpacity>
     </View>
   );
 }

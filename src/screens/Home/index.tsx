@@ -53,6 +53,12 @@ export function Home() {
     });
   }
 
+  function handleTaskDelete(task: TaskProps) {
+    const taskId = task.id;
+
+    setTasks((prevState) => prevState.filter((task) => task.id !== taskId));
+  }
+
   return (
     <View style={styles.homeContainer}>
       <View style={styles.homeHeaderBackground}></View>
@@ -109,7 +115,7 @@ export function Home() {
                 description={item.description}
                 done={item.done}
                 onComplete={() => toggleTaskState(item)}
-                onRemove={() => {}}
+                onRemove={() => handleTaskDelete(item)}
                 id={item.id}
               />
             )}
