@@ -1,17 +1,104 @@
 import {
   FlatList,
+  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 import { styles } from "./styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Task, TaskProps } from "../../Components/Task";
 import Image from "react-native-remote-svg";
+import { EmptyList } from "../../Components/EmptyList";
 
 export function Home() {
-  const [tasks, setTasks] = useState<TaskProps[]>([]);
+  const mockedTasks: TaskProps[] = [
+    {
+      description:
+        "Integer urna interdum massa libero auctor neque turpis turpis semper.",
+      done: false,
+      id: "1",
+      onComplete: () => {},
+    },
+    {
+      description: "Go to the gym",
+      done: true,
+      id: "2",
+      onComplete: () => {},
+    },
+    {
+      description: "Read a book",
+      done: false,
+      id: "3",
+      onComplete: () => {},
+    },
+    {
+      description: "Complete work project",
+      done: true,
+      id: "4",
+      onComplete: () => {},
+    },
+    {
+      description: "Call a friend",
+      done: false,
+      id: "5",
+      onComplete: () => {},
+    },
+    {
+      description: "Take a walk",
+      done: true,
+      id: "6",
+      onComplete: () => {},
+    },
+    {
+      description: "Cook dinner",
+      done: false,
+      id: "7",
+      onComplete: () => {},
+    },
+    {
+      description: "Do laundry",
+      done: true,
+      id: "8",
+      onComplete: () => {},
+    },
+    {
+      description: "Write in journal",
+      done: false,
+      id: "9",
+      onComplete: () => {},
+    },
+    {
+      description: "Watch a movie",
+      done: true,
+      id: "10",
+      onComplete: () => {},
+    },
+  ];
+
+  const [tasks, setTasks] = useState<TaskProps[]>(mockedTasks);
+  const [tasksDone, setTasksDone] = useState(0);
+
+  useEffect(() => {
+    handleTasks();
+  }, []);
+
+  function handleTasks(): void {
+    countTasksDone();
+    setTasksDoneToEndOfList();
+  }
+
+  function countTasksDone(): void {
+    setTasksDone(() => tasks.filter((task) => task.done).length);
+  }
+
+  function setTasksDoneToEndOfList(): void {
+    const tasksDone = tasks.filter((task) => task.done);
+    const tasksNotDone = tasks.filter((task) => !task.done);
+
+    setTasks([...tasksNotDone, ...tasksDone]);
+  }
 
   return (
     <>
@@ -39,7 +126,7 @@ export function Home() {
             <View style={styles.taskInformation}>
               <Text style={styles.taskType}>Criadas</Text>
               <View style={styles.taskMeterContainer}>
-                <Text style={styles.taskMeter}>0</Text>
+                <Text style={styles.taskMeter}>{tasks.length}</Text>
               </View>
             </View>
 
@@ -48,12 +135,12 @@ export function Home() {
                 Concluídas
               </Text>
               <View style={styles.taskMeterContainer}>
-                <Text style={styles.taskMeter}>0</Text>
+                <Text style={styles.taskMeter}>{tasksDone}</Text>
               </View>
             </View>
           </View>
 
-          <View>
+          <SafeAreaView style={styles.tasksContainer}>
             <FlatList
               data={tasks}
               keyExtractor={(item: TaskProps) => item.id}
@@ -66,28 +153,11 @@ export function Home() {
                   id={item.id}
                 />
               )}
+              scrollEnabled={true}
               showsVerticalScrollIndicator={false}
-              ListEmptyComponent={() => (
-                <View style={styles.listEmptyContainer}>
-                  <Image source={require("./clipboard.svg")} />
-
-                  <View>
-                    <Text
-                      style={[
-                        styles.listEmptyContainerText,
-                        styles.listEmptyContainerTextBold,
-                      ]}
-                    >
-                      Você ainda não tem tarefas cadastradas{" "}
-                    </Text>
-                    <Text style={styles.listEmptyContainerText}>
-                      Crie tarefas e organize seus itens a fazer
-                    </Text>
-                  </View>
-                </View>
-              )}
+              ListEmptyComponent={() => <EmptyList />}
             />
-          </View>
+          </SafeAreaView>
         </View>
       </View>
     </>
