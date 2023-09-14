@@ -42,7 +42,7 @@ export function Home() {
     setTaskDescription("");
   }
 
-  async function toggleTaskState(task: TaskProps) {
+  function toggleTaskState(task: TaskProps) {
     const taskId = task.id;
     const taskDone = task.done;
 
